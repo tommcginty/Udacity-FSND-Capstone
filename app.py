@@ -87,7 +87,7 @@ def create_app():
     except:
       abort(422)
 
-  @app.route('/questions', methods=['POST'])
+  @app.route('/movies', methods=['POST'])
   def add_movie():
     movie = request.get_json()
     if not movie['title']:
@@ -106,6 +106,37 @@ def create_app():
     except:
       abort(422)
 
+  @app.route('/movies/<int:movie_id>', methods=['PATCH'])
+  def update_movie(movie_id):
+    movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
+    if not movie:
+      abort(404)
+    updated_movie = request.get_json()
+
+    title = updated_movie.get('title')
+    genre = updated_movie.get('genre')
+    release_date = updated_movie.get('release_date')
+
+    if title:
+      movie.title = title
+    if genre:
+      movie.genre = genre
+    if release_date:
+      movie.release_date = release_date
+    try:
+      updated_movie.update()
+      return jsonify({
+        'success': True,
+        'title': movie.title,
+        'genre': movie.genre,
+        'release_date': movie.release_date
+      }), 200
+    except Exception as e:
+      print('My exception occurred, value:', e)
+      abort(422)
+    
+
+
 # Error Handlers
 #  ---------------------------------------------------------------- 
   @app.errorhandler(404)
@@ -115,6 +146,22 @@ def create_app():
       'error': 404,
       'message': 'resourse not found'
     }), 404
+
+  @app.errorhandler(400)
+  def not_found(error):
+    return jsonify({
+      'success': False,
+      'error': 400,
+      'message': 'bad request'
+    }), 400
+
+  @app.errorhandler(422)
+  def unprocessable(error):
+      return jsonify({
+          'success': False,
+          'error': 422,
+          'message': 'unprocessable'
+      }), 422
 
   return app
 
