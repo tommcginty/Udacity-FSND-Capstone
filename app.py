@@ -43,17 +43,49 @@ def create_app():
     try:
       movies = Movie.query.all()
       current_movies = paginate_results(request, movies)
-      print(movies)
+      total_movies = len(movies)
 
       if len(current_movies) == 0:
         abort(404)
 
       return jsonify ({
           'success': True,
-          'movies': current_movies
+          'movies': current_movies,
+          'total_movies': total_movies
         })
     except:
         abort(404)
+
+  @app.route('/movies/<int:movie_id>', methods=['GET'])
+  def display_movie(movie_id):
+    movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
+    if movie is None:
+      abort(404)
+    try:
+      return jsonify({
+        'success': True,
+        'id': movie.id,
+        'title': movie.title,
+        'genre': movie.genre,
+        'release_date': movie.release_date
+      })
+    except:
+      abort(422)
+
+
+  @app.route('/movies/<int:movie_id>', methods=['DELETE'])
+  def delete_movie(movie_id):
+    movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
+    if movie is None:
+      abort(404)
+    try:
+      movie.delete()
+      return jsonify({
+        'success': True,
+        'deleted': movie_id,
+      })
+    except:
+      abort(422)
 
   return app
 
