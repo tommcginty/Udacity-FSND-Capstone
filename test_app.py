@@ -45,7 +45,13 @@ class CastingTestCase(unittest.TestCase):
         self.assertTrue(data["total_movies"])
         self.assertTrue(len(data["movies"]))
     
-    
+    def test_404_sent_requesting_beyond_valid_page(self):
+        res = self.client().get('/movies?page=100')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'resourse not found')
 
 if __name__ == "__main__":
     unittest.main()
