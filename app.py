@@ -87,6 +87,16 @@ def create_app():
     except:
       abort(422)
 
+# Error Handlers
+#  ---------------------------------------------------------------- 
+  @app.errorhandler(404)
+  def not_found(error):
+    return jsonify({
+      'success': False,
+      'error': 404,
+      'message': 'resourse not found'
+    }), 404
+
   return app
 
 app = create_app()
