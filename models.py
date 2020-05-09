@@ -3,12 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 import os
 
-database_path = os.environ['DATABASE_URL']
+database_path = os.environ['TESTDB_URL']
 
 db = SQLAlchemy()
 
 '''
-setup_db(app)
     binds a flask application and a SQLAlchemy service
 '''
 def setup_db(app, database_path=database_path):
@@ -23,7 +22,7 @@ class Movie(db.Model):
     __tablename__ = 'movies'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String,nullable=False)
-    title = db.Column(db.String)
+    genre = db.Column(db.String)
     release_date = db.Column(db.String())
 
     def __repr__(self):
@@ -93,22 +92,3 @@ def db_drop_and_create_all():
     '''
     db.drop_all()
     db.create_all()
-
-def db_init_records():
-    '''this will initialize the database with some test records.'''
-
-    new_actor = (Actor(
-        name = 'Cory McAbee',
-        gender = 'Male',
-        birthdate = '1961/08/29'
-        ))
-
-    new_movie = (Movie(
-        title = 'The American Astronaut',
-        genre = 'Comedy',
-        release_date = '2001/01/20'
-        ))
-
-    new_actor.insert()
-    new_movie.insert()
-    db.session.commit()

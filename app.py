@@ -3,7 +3,7 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from dotenv import load_dotenv
-from models import setup_db, db_drop_and_create_all
+from models import setup_db, db_drop_and_create_all, Movie, Actor
 
 load_dotenv()
 
@@ -14,18 +14,23 @@ def paginate_results(request, selection):
   start = (page - 1) * RESULTS_PER_PAGE
   end = start + RESULTS_PER_PAGE
 
-  results = [question.format() for result in selection]
+  results = [result.format() for result in selection]
   current_results = results[start:end]
   
   return current_results
 
-def create_app(test_config=None):
+def create_app():
   # create and configure the app
   app = Flask(__name__)
   setup_db(app)
   CORS(app)
 
-  db_drop_and_create_all():
+  '''
+  @TODO uncomment the following line to initialize the datbase
+  !! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
+  !! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
+'''
+  #db_drop_and_create_all()
 
   @app.route('/')
   def welcome():
@@ -33,6 +38,22 @@ def create_app(test_config=None):
 
 #  Movies
 #  ----------------------------------------------------------------  
+  @app.route('/movies')
+  def get_movies():
+    try:
+      movies = Movie.query.all()
+      current_movies = paginate_results(request, movies)
+      print(movies)
+
+      if len(current_movies) == 0:
+        abort(404)
+
+      return jsonify ({
+          'success': True,
+          'movies': current_movies
+        })
+    except:
+        abort(404)
 
   return app
 
