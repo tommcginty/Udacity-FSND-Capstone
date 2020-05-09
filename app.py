@@ -87,6 +87,25 @@ def create_app():
     except:
       abort(422)
 
+  @app.route('/questions', methods=['POST'])
+  def add_movie():
+    movie = request.get_json()
+    if not movie['title']:
+      abort(400)
+    new_movie = Movie(
+      title = movie.get('title'),
+      genre = movie.get('genre'),
+      release_date = movie.get('release_date'),
+    )
+    try:
+      Movie.insert(new_movie)
+      return jsonify({
+        'movie': movie,
+        'success': True,
+      })
+    except:
+      abort(422)
+
 # Error Handlers
 #  ---------------------------------------------------------------- 
   @app.errorhandler(404)
