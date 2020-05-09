@@ -53,5 +53,32 @@ class CastingTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'resourse not found')
 
+    def test_get_individual_movie(self):
+        movie = Movie.query.first()
+        res = self.client().get(f'/movies/{movie.id}')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+        self.assertEqual(data["title"], movie.title)
+
+    def test_delete_movie(self):
+        movies_before_delete = len(Movie.query.all())
+        movie = Movie.query.order_by(Movie.id.desc()).first()
+        res = self.client().delete(f'/movies/{movie.id}')
+        data = json.loads(res.data)
+
+        movies_after_delete = len(Movie.query.all())
+        deleted_movie = Movie.query.filter(Movie.id == movie.id).one_or_none()
+        
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['deleted'], movie.id)
+        self.assertTrue(movies_after_delete == movies_before_delete - 1)
+        self.assertEqual(deleted_movie, None)
+
+
+
+
 if __name__ == "__main__":
     unittest.main()
