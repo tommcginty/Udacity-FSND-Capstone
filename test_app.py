@@ -19,9 +19,9 @@ class CastingTestCase(unittest.TestCase):
 
         # test movie
         self.new_movie = {
-            'title': 'Test Title',
-            'genre': 'Comedy',
-            'relese_date': '2038/01/19'
+            'title': 'Untitled Action Movie',
+            'genre': 'Action',
+            'release_date': '2038/01/19'
         }
 
 
@@ -61,6 +61,42 @@ class CastingTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
         self.assertEqual(data["title"], movie.title)
+    
+    def test_add_movie(self):
+        movies_before_addition = len(Movie.query.all())
+        res = self.client().post('/movies', json=self.new_movie)
+        data = json.loads(res.data)
+        movies_after_addition = len(Movie.query.all())
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(movies_after_addition == movies_before_addition + 1)
+        
+    def test_400_empty_add_movie_with_no_title(self):
+        movies_before_addition = len(Movie.query.all())
+        no_title = {
+            'title': '',
+            'genre': 'Action',
+            'release_date': '1900/01/01'
+        }
+        res = self.client().post('/movies', json=no_title)
+        data = json.loads(res.data)
+        movies_after_addition = len(Movie.query.all())
+
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(data['success'], False)
+        self.assertTrue(movies_after_addition == movies_before_addition)
+
+    def test_update_movie(self):
+        movie = Movie.query.order_by(Movie.id.desc()).first()
+        original_title = movie.title
+        updated_movie = {'title': 'Untitled Comedy Movie', 'genre': 'Comedy', 'release_date': '2038/01/01'}
+        res = self.client().patch(f'/movies/{movie.id}', json=updated_movie)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertFalse(original_title == movie.title)
 
     def test_delete_movie(self):
         movies_before_delete = len(Movie.query.all())
@@ -76,6 +112,8 @@ class CastingTestCase(unittest.TestCase):
         self.assertEqual(data['deleted'], movie.id)
         self.assertTrue(movies_after_delete == movies_before_delete - 1)
         self.assertEqual(deleted_movie, None)
+
+
 
 
 
