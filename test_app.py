@@ -58,7 +58,7 @@ class CastingTestCase(unittest.TestCase):
 
     def test_get_individual_movie(self):
         movie = Movie.query.first()
-        res = self.client().get(f'/movies/{movie.id}')
+        res = self.client().get(f'/movies/{movie.id}', headers={'Authorization': self.assistant})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
