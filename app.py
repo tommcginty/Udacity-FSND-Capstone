@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from dotenv import load_dotenv
 from models import setup_db, db_drop_and_create_all, Movie, Actor
+from auth.auth import AuthError, requires_auth
+
 
 load_dotenv()
 
@@ -39,7 +41,8 @@ def create_app():
 #  Movies
 #  ----------------------------------------------------------------  
   @app.route('/movies')
-  def get_movies():
+  @requires_auth('get:movies')
+  def get_movies(jwt):
     try:
       movies = Movie.query.all()
       current_movies = paginate_results(request, movies)
