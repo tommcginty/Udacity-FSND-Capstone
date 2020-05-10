@@ -23,7 +23,10 @@ class CastingTestCase(unittest.TestCase):
             'genre': 'Action',
             'release_date': '2038/01/19'
         }
-
+        # roles
+        self.assistant = os.getenv('ASSISTANT')
+        self.director = os.getenv('DIRECTOR')
+        self.producer = os.getenv('PRODUCER')
 
         # binds the app to the current context
         with self.app.app_context():
@@ -37,7 +40,7 @@ class CastingTestCase(unittest.TestCase):
         pass
 
     def test_get_paginated_movies(self):
-        res = self.client().get('/movies')
+        res = self.client().get('/movies', headers={'Authorization': self.assistant})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -46,7 +49,7 @@ class CastingTestCase(unittest.TestCase):
         self.assertTrue(len(data["movies"]))
     
     def test_404_sent_requesting_beyond_valid_page(self):
-        res = self.client().get('/movies?page=100')
+        res = self.client().get('/movies?page=100', headers={'Authorization': self.assistant})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
