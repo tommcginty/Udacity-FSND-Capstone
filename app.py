@@ -7,7 +7,6 @@ from models import setup_db, db_drop_and_create_all, Movie, Actor
 from auth.auth import AuthError, requires_auth
 
 
-load_dotenv()
 
 RESULTS_PER_PAGE = 6
 
@@ -169,6 +168,14 @@ def create_app():
           'error': 422,
           'message': 'unprocessable'
       }), 422
+  
+  @app.errorhandler(AuthError)
+  def unauthorized(error):
+      return jsonify({
+          'success': False, 
+          'error': error.status_code,
+          'message': 'unauthorized'
+          }), error.status_code
 
   return app
 
