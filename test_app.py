@@ -104,7 +104,7 @@ class CastingTestCase(unittest.TestCase):
     def test_delete_movie(self):
         movies_before_delete = len(Movie.query.all())
         movie = Movie.query.order_by(Movie.id.desc()).first()
-        res = self.client().delete(f'/movies/{movie.id}')
+        res = self.client().delete(f'/movies/{movie.id}', headers={'Authorization': self.producer})
         data = json.loads(res.data)
 
         movies_after_delete = len(Movie.query.all())
