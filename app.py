@@ -60,7 +60,8 @@ def create_app():
         abort(404)
 
   @app.route('/movies/<int:movie_id>', methods=['GET'])
-  def display_movie(movie_id):
+  @requires_auth('get:movies')
+  def display_movie(jwt, movie_id):
     movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
     if movie is None:
       abort(404)
