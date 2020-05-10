@@ -78,7 +78,8 @@ def create_app():
 
 
   @app.route('/movies/<int:movie_id>', methods=['DELETE'])
-  def delete_movie(movie_id):
+  @requires_auth('delete:movie')
+  def delete_movie(jwt, movie_id):
     movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
     if movie is None:
       abort(404)
