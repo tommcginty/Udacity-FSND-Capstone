@@ -27,6 +27,7 @@ class CastingTestCase(unittest.TestCase):
         self.assistant = os.getenv('ASSISTANT')
         self.director = os.getenv('DIRECTOR')
         self.producer = os.getenv('PRODUCER')
+        #self.no_permissions = os.getenv('NO_PERMISSIONS')
 
         # binds the app to the current context
         with self.app.app_context():
@@ -47,15 +48,14 @@ class CastingTestCase(unittest.TestCase):
         self.assertEqual(data["success"], True)
         self.assertTrue(data["total_movies"])
         self.assertTrue(len(data["movies"]))
-
-    def get_movies_no_authorization(self):
+    
+    def test_get_movies_no_auth(self):
         res = self.client().get('/movies')
-        data = json.loads(res.data)
-        print('data:', data)
+        data = res.get_json()
 
         self.assertEqual(res.status_code, 401)
-        self.assertEqual(data["success"], False)
-        self.assertEqual(data['description'], 'Authorization header is expected.')
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'unauthorized')
     
     def test_404_sent_requesting_beyond_valid_page(self):
         res = self.client().get('/movies?page=100', headers={'Authorization': self.assistant})
@@ -83,6 +83,17 @@ class CastingTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(movies_after_addition == movies_before_addition + 1)
+
+    def test_add_movie_unauthorized(self):
+        movies_before_addition = len(Movie.query.all())
+        res = self.client().post('/movies', json=self.new_movie, headers={'Authorization': self.assistant})
+        data = json.loads(res.data)
+        movies_after_addition = len(Movie.query.all())
+
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'unauthorized')
+        self.assertTrue(movies_after_addition == movies_before_addition)
         
     def test_400_empty_add_movie_with_no_title(self):
         movies_before_addition = len(Movie.query.all())
@@ -125,9 +136,18 @@ class CastingTestCase(unittest.TestCase):
         self.assertTrue(movies_after_delete == movies_before_delete - 1)
         self.assertEqual(deleted_movie, None)
 
+    def test_delete_movie_unauthorized(self):
+        movies_before_delete = len(Movie.query.all())
+        movie = Movie.query.order_by(Movie.id.desc()).first()
+        res = self.client().delete(f'/movies/{movie.id}', headers={'Authorization': self.assistant})
+        data = json.loads(res.data)
 
-
-
+        movies_after_delete = len(Movie.query.all())
+        deleted_movie = Movie.query.filter(Movie.id == movie.id).one_or_none()
+        
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(data['success'], False)
+        self.assertTrue(movies_after_delete == movies_before_delete)
 
 
 if __name__ == "__main__":
