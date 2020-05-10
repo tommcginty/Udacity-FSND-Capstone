@@ -47,6 +47,15 @@ class CastingTestCase(unittest.TestCase):
         self.assertEqual(data["success"], True)
         self.assertTrue(data["total_movies"])
         self.assertTrue(len(data["movies"]))
+
+    def get_movies_no_authorization(self):
+        res = self.client().get('/movies')
+        data = json.loads(res.data)
+        print('data:', data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data["success"], False)
+        self.assertEqual(data['description'], 'Authorization header is expected.')
     
     def test_404_sent_requesting_beyond_valid_page(self):
         res = self.client().get('/movies?page=100', headers={'Authorization': self.assistant})
@@ -67,7 +76,7 @@ class CastingTestCase(unittest.TestCase):
     
     def test_add_movie(self):
         movies_before_addition = len(Movie.query.all())
-        res = self.client().post('/movies', json=self.new_movie)
+        res = self.client().post('/movies', json=self.new_movie, headers={'Authorization': self.producer})
         data = json.loads(res.data)
         movies_after_addition = len(Movie.query.all())
 
@@ -82,7 +91,7 @@ class CastingTestCase(unittest.TestCase):
             'genre': 'Action',
             'release_date': '1900/01/01'
         }
-        res = self.client().post('/movies', json=no_title)
+        res = self.client().post('/movies', json=no_title, headers={'Authorization': self.producer})
         data = json.loads(res.data)
         movies_after_addition = len(Movie.query.all())
 
@@ -94,7 +103,7 @@ class CastingTestCase(unittest.TestCase):
         movie = Movie.query.order_by(Movie.id.desc()).first()
         original_title = movie.title
         updated_movie = {'title': 'Untitled Comedy Movie', 'genre': 'Comedy', 'release_date': '2038/01/01'}
-        res = self.client().patch(f'/movies/{movie.id}', json=updated_movie)
+        res = self.client().patch(f'/movies/{movie.id}', json=updated_movie, headers={'Authorization': self.director})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)

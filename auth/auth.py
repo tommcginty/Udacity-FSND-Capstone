@@ -1,3 +1,4 @@
+import os
 import json
 from flask import request, _request_ctx_stack, abort
 from functools import wraps
@@ -6,9 +7,9 @@ from urllib.request import urlopen
 
 
 
-AUTH0_DOMAIN = 'fishhouse.auth0.com'
+AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN')
 ALGORITHMS = ['RS256']
-API_AUDIENCE = 'casting'
+API_AUDIENCE = os.getenv('API_AUDIENCE')
 
 ## AuthError Exception
 

@@ -93,7 +93,8 @@ def create_app():
       abort(422)
 
   @app.route('/movies', methods=['POST'])
-  def add_movie():
+  @requires_auth('post:movie')
+  def add_movie(jwt):
     movie = request.get_json()
     if not movie['title']:
       abort(400)
@@ -112,7 +113,8 @@ def create_app():
       abort(422)
 
   @app.route('/movies/<int:movie_id>', methods=['PATCH'])
-  def update_movie(movie_id):
+  @requires_auth('patch:movie')
+  def update_movie(jwt, movie_id):
     movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
     if not movie:
       abort(404)
