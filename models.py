@@ -4,8 +4,7 @@ from datetime import date, datetime
 import json
 import os
 
-database_name = "casting"
-database_path = "postgres://{}/{}".format('localhost:5432', database_name)
+database_path = os.environ['DATABASE_URL']
 current_date = date.today()
 
 db = SQLAlchemy()

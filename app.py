@@ -115,10 +115,10 @@ def create_app():
   @requires_auth('patch:movie')
   def update_movie(jwt, movie_id):
     movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
+    original_title = movie.title
     if not movie:
       abort(404)
     updated_movie = request.get_json()
-    print()
 
     title = updated_movie.get('title')
     genre = updated_movie.get('genre')
@@ -132,11 +132,9 @@ def create_app():
       movie.release_date = release_date
     try:
       movie.update()
+      new_title = movie.title
       return jsonify({
         'success': True,
-        'movie': movie.title,
-        'genre': movie.genre,
-        'release_date': movie.release_date
       }), 200
     except Exception as e:
       print('My exception occurred, value:', e)
