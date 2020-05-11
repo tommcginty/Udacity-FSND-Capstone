@@ -39,10 +39,11 @@ class CastingTestCase(unittest.TestCase):
     def tearDown(self):
         """Executed after reach test"""
         pass
-
+# Movie Tests
+#---------------------------------------------------------------------------------------
     def test_get_paginated_movies(self):
         res = self.client().get('/movies', headers={'Authorization': self.assistant})
-        data = json.loads(res.data)
+        data = res.get_json()
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
@@ -148,6 +149,19 @@ class CastingTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 403)
         self.assertEqual(data['success'], False)
         self.assertTrue(movies_after_delete == movies_before_delete)
+        self.assertEqual(deleted_movie.id, movie.id)
+
+# Actor Tests
+#---------------------------------------------------------------------------------------
+
+    def test_get_paginated_actors(self):
+        res = self.client().get('/actors', headers={'Authorization': self.assistant})
+        data = res.get_json()
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+        self.assertTrue(data["total_actors"])
+        self.assertTrue(len(data["actors"]))
 
 
 if __name__ == "__main__":
