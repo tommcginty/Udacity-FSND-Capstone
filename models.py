@@ -1,11 +1,14 @@
 from sqlalchemy import Column, String, Integer, create_engine
 from flask_sqlalchemy import SQLAlchemy
+from datetime import date, datetime
 import json
 import os
 
 database_path = os.environ['TESTDB_URL']
+current_date = date.today()
 
 db = SQLAlchemy()
+
 
 '''
     binds a flask application and a SQLAlchemy service
@@ -16,6 +19,19 @@ def setup_db(app, database_path=database_path):
     db.app = app
     db.init_app(app)
     db.create_all()
+
+def calculate_age(birthdate, current_date=current_date):
+    birthday = datetime.strptime(birthdate, '%Y/%m/%d').date()
+    #caclulates age based on days in the year
+    days_in_year = 365.2425
+    age = int((current_date - birthday).days / days_in_year)
+    return age
+
+
+
+
+
+
 
 
 class Movie(db.Model):
@@ -67,7 +83,7 @@ class Actor(db.Model):
         self.name = name
         self.gender = gender
         self.birthdate = birthdate
-
+        
     def insert(self):
         db.session.add(self)
         db.session.commit()
@@ -84,7 +100,7 @@ class Actor(db.Model):
         'id': self.id,
         'name' : self.name,
         'gender': self.gender,
-        'age': self.birthdate
+        'age': calculate_age(self.birthdate)
         }
 
 def db_drop_and_create_all():
