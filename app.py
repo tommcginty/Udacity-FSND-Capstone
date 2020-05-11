@@ -3,7 +3,7 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from dotenv import load_dotenv
-from models import setup_db, db_drop_and_create_all, Movie, Actor
+from models import setup_db, db_drop_and_create_all, calculate_age, current_date, Movie, Actor
 from auth.auth import AuthError, requires_auth
 
 
@@ -141,7 +141,46 @@ def create_app():
       print('My exception occurred, value:', e)
       abort(422)
     
+#  Actors
+#  ----------------------------------------------------------------  
+  @app.route('/actors')
+  #@requires_auth('get:actors')
+  def get_actors():
+    try:
+      actors = Actor.query.all()
+      current_actors = paginate_results(request, actors)
+      total_actors = len(actors)
 
+      if len(current_actors) == 0:
+        abort(404)
+      
+      return jsonify ({
+          'success': True,
+          'actors': current_actors,
+          'total_actors': total_actors
+        })
+    except:
+        abort(404)
+
+  @app.route('/actors/<int:actor_id>', methods=['GET'])
+  #@requires_auth('get:actors')
+  def display_actor(actor_id):
+    actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+    age = calculate_age(actor.birthdate)
+    print('age: ', age)
+
+    if actor is None:
+      abort(404)
+    try:
+      return jsonify({
+        'success': True,
+        'id': actor.id,
+        'name': actor.name,
+        'gender': actor.gender,
+        'age': age
+      })
+    except:
+      abort(422)
 
 # Error Handlers
 #  ---------------------------------------------------------------- 
