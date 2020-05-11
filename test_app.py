@@ -23,6 +23,13 @@ class CastingTestCase(unittest.TestCase):
             'genre': 'Action',
             'release_date': '2038/01/19'
         }
+
+        # test actor
+        self.new_actor = {
+            'name': 'Jane Doe',
+            'gender': 'Female',
+            'birthdate': '1999/12/31'
+        }
         # roles
         self.assistant = os.getenv('ASSISTANT')
         self.director = os.getenv('DIRECTOR')
@@ -140,7 +147,7 @@ class CastingTestCase(unittest.TestCase):
     def test_delete_movie_unauthorized(self):
         movies_before_delete = len(Movie.query.all())
         movie = Movie.query.order_by(Movie.id.desc()).first()
-        res = self.client().delete(f'/movies/{movie.id}', headers={'Authorization': self.assistant})
+        res = self.client().delete(f'/movies/{movie.id}', headers={'Authorization': self.director})
         data = json.loads(res.data)
 
         movies_after_delete = len(Movie.query.all())
@@ -162,6 +169,99 @@ class CastingTestCase(unittest.TestCase):
         self.assertEqual(data["success"], True)
         self.assertTrue(data["total_actors"])
         self.assertTrue(len(data["actors"]))
+    
+    def test_get_actors_no_auth(self):
+        res = self.client().get('/actors')
+        data = res.get_json()
+
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'unauthorized')
+    
+    def test_get_individual_actor(self):
+        actor = Actor.query.first()
+        res = self.client().get(f'/actors/{actor.id}', headers={'Authorization': self.assistant})
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+        self.assertEqual(data["name"], actor.name)
+    
+    def test_add_actor(self):
+        actors_before_addition = len(Actor.query.all())
+        res = self.client().post('/actors', json=self.new_actor, headers={'Authorization': self.producer})
+        data = json.loads(res.data)
+        actors_after_addition = len(Actor.query.all())
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(actors_after_addition == actors_before_addition + 1)
+
+    def test_add_actor_unauthorized(self):
+        actors_before_addition = len(Actor.query.all())
+        res = self.client().post('/actors', json=self.new_actor, headers={'Authorization': self.assistant})
+        data = json.loads(res.data)
+        actors_after_addition = len(Actor.query.all())
+
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'unauthorized')
+        self.assertTrue(actors_after_addition == actors_before_addition)
+        
+    def test_400_empty_add_actor_with_no_name(self):
+        actors_before_addition = len(Actor.query.all())
+        no_name = {
+            'name': '',
+            'gender': 'Male',
+            'birthdate': '1900/01/01'
+        }
+        res = self.client().post('/actors', json=no_name, headers={'Authorization': self.producer})
+        data = json.loads(res.data)
+        actors_after_addition = len(Actor.query.all())
+
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(data['success'], False)
+        self.assertTrue(actors_after_addition == actors_before_addition)
+
+    def test_update_actor(self):
+        actor = Actor.query.order_by(Actor.id.desc()).first()
+        original_name = actor.name
+        updated_name = {'name': 'Jane Q Public'}
+        res = self.client().patch(f'/actors/{actor.id}', json=updated_name, headers={'Authorization': self.director})
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertFalse(original_name == actor.name)
+
+    def test_delete_actor(self):
+        actors_before_delete = len(Actor.query.all())
+        actor = Actor.query.order_by(Actor.id.desc()).first()
+        res = self.client().delete(f'/actors/{actor.id}', headers={'Authorization': self.producer})
+        data = json.loads(res.data)
+
+        actors_after_delete = len(Actor.query.all())
+        deleted_actor = Actor.query.filter(Actor.id == actor.id).one_or_none()
+        
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['deleted'], actor.id)
+        self.assertTrue(actors_after_delete == actors_before_delete - 1)
+        self.assertEqual(deleted_actor, None)
+
+    def test_delete_actor_unauthorized(self):
+        actors_before_delete = len(Actor.query.all())
+        actor = Actor.query.order_by(Actor.id.desc()).first()
+        res = self.client().delete(f'/actors/{actor.id}', headers={'Authorization': self.assistant})
+        data = json.loads(res.data)
+
+        actors_after_delete = len(Actor.query.all())
+        deleted_actor = Actor.query.filter(Actor.id == actor.id).one_or_none()
+        
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(data['success'], False)
+        self.assertTrue(actors_after_delete == actors_before_delete)
+        self.assertEqual(deleted_actor.id, actor.id)
 
 
 if __name__ == "__main__":

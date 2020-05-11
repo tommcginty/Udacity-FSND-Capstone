@@ -118,6 +118,7 @@ def create_app():
     if not movie:
       abort(404)
     updated_movie = request.get_json()
+    print()
 
     title = updated_movie.get('title')
     genre = updated_movie.get('genre')
@@ -130,10 +131,10 @@ def create_app():
     if release_date:
       movie.release_date = release_date
     try:
-      updated_movie.update()
+      movie.update()
       return jsonify({
         'success': True,
-        'title': movie.title,
+        'movie': movie.title,
         'genre': movie.genre,
         'release_date': movie.release_date
       }), 200
@@ -144,8 +145,8 @@ def create_app():
 #  Actors
 #  ----------------------------------------------------------------  
   @app.route('/actors')
-  #@requires_auth('get:actors')
-  def get_actors():
+  @requires_auth('get:actors')
+  def get_actors(jwt):
     try:
       actors = Actor.query.all()
       current_actors = paginate_results(request, actors)
@@ -163,11 +164,10 @@ def create_app():
         abort(404)
 
   @app.route('/actors/<int:actor_id>', methods=['GET'])
-  #@requires_auth('get:actors')
-  def display_actor(actor_id):
+  @requires_auth('get:actors')
+  def display_actor(jwt, actor_id):
     actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
     age = calculate_age(actor.birthdate)
-    print('age: ', age)
 
     if actor is None:
       abort(404)
@@ -180,6 +180,72 @@ def create_app():
         'age': age
       })
     except:
+      abort(422)
+
+  @app.route('/actors/<int:actor_id>', methods=['DELETE'])
+  @requires_auth('delete:actor')
+  def delete_actor(jwt, actor_id):
+    actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+    if actor is None:
+      abort(404)
+    try:
+      actor.delete()
+      return jsonify({
+        'success': True,
+        'deleted': actor_id,
+      })
+    except:
+      abort(422)
+
+
+  @app.route('/actors', methods=['POST'])
+  @requires_auth('post:actor')
+  def add_actor(jwt):
+    actor = request.get_json()
+    if not actor['name']:
+      abort(400)
+    new_actor = Actor(
+      name = actor.get('name'),
+      gender = actor.get('gender'),
+      birthdate = actor.get('birthdate'),
+    )
+    try:
+      Actor.insert(new_actor)
+      return jsonify({
+        'actor': actor,
+        'success': True,
+      })
+    except:
+      abort(422)
+
+  @app.route('/actors/<int:actor_id>', methods=['PATCH'])
+  @requires_auth('patch:actor')
+  def update_actor(jwt, actor_id):
+    actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+    if not actor:
+      abort(404)
+    updated_actor = request.get_json()
+
+    name = updated_actor.get('name')
+    gender = updated_actor.get('gender')
+    birthdate = updated_actor.get('birthdate')
+
+    if name:
+      actor.name = name
+    if gender:
+      actor.gender = gender
+    if birthdate:
+      actor.birthdate = birthdate
+    try:
+      actor.update()
+      return jsonify({
+        'success': True,
+        'name': actor.name,
+        'gender': actor.gender,
+        'birthdate': actor.birthdate
+      }), 200
+    except Exception as e:
+      print('My exception occurred, value:', e)
       abort(422)
 
 # Error Handlers
