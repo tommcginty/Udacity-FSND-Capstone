@@ -1,0 +1,1286 @@
+{
+	"info": {
+		"_postman_id": "24276d0c-a915-4621-8a84-9129992222b5",
+		"name": "udacity-capstone-heroku",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Producer",
+			"item": [
+				{
+					"name": "Movies",
+					"item": [
+						{
+							"name": "Producer Post Movie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"Star Wars\",\n\t\"genre\": \"Fantasy\",\n\t\"release_date\": \"1977/05/25\"\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/movies",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Producer Get Movies",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains movies array\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.movies).to.be.an('array')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/movies",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Producer Update Movie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"Star Wars: Episode IV - A New Hope\",\n\t\"genre\": \"Sci-fi\"\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/movies/4",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"movies",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Producer Delete Movie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/movies/1",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"movies",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Actors",
+					"item": [
+						{
+							"name": "Producer Post Actor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Jane Doe\",\n\t\"gender\": \"Female\",\n\t\"birthdate\": \"1999/12/31\"\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/actors",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"actors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Producer Get Actors",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains actors array\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.actors).to.be.an('array')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/actors",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"actors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Producer Update Actor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Jane Q Public\"\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/actors/4",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"actors",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Producer Delete Actor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/actors/1",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"actors",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik56VkZORE5EUkRVMVFqaEZOVFE1UkRVd05VSkNNa0UxTTBRelJEazNRVVl3UkRJME1rUXpNdyJ9.eyJpc3MiOiJodHRwczovL2Zpc2hob3VzZS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWViNzU3MWYxY2MxYWMwYzE0OTk3ZTM4IiwiYXVkIjoiY2FzdGluZyIsImlhdCI6MTU4OTI1ODk5MSwiZXhwIjoxNTg5MzQ1MzkxLCJhenAiOiI2QnlpNTdjWWN6S2xHbnEzYTJadzRsVHlNR05hcmI0ZSIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9yIiwiZGVsZXRlOm1vdmllIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvciIsInBhdGNoOm1vdmllIiwicG9zdDphY3RvciIsInBvc3Q6bW92aWUiXX0.lsVX3CPrdnSzqIfppIcSlzfHXs2mbKBXaCT3BszZjAbvPYP_woF5-Y9EDf1bf013Z57xp20qJB_LsTFnqaXb9O-4t8ydQ7Ogn354Y9s_rvBm_GctZdHrtaG6JYHGFOfPpVxU157C3CJnYwx1enKWt8Nk_ozpBJhxmKPpyKEnrQFY_OZEJZtBU7_fbMSG2ykqxJjKcwxJhFtk4uS7l5JG5Q6OQDUlBu0KBAR8PMf_13rAoSXtSZqoDpzf0c8gwZ7yjOO9S7VdQFgVrjgQBzRnNOvzMcKJgeQmMDFmojpxxHecoMeo-pD7rW5bfuim3TIQogIRI3ZYpaqeQQ2VOckOdg",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c0a45358-3ba7-490e-b44b-697f70e17f22",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "757db9d7-583e-4ef3-8c39-1a1b000c7ce1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Director",
+			"item": [
+				{
+					"name": "Movies",
+					"item": [
+						{
+							"name": "Director Post Movie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"The Empire Strikes Back\",\n\t\"genre\": \"Fantasy\",\n\t\"release_date\": \"1980/06/20\"\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/movies",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Director Get Movies",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains movies array\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.movies).to.be.an('array')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/movies",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Director Update Movie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"Star Wars: The Empire Strikes Back\",\n\t\"genre\": \"Fantasy\"\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/movies/5",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"movies",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Director Delete Movie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/movies/4",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"movies",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Actors",
+					"item": [
+						{
+							"name": "Director Post Actor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Jane Q Public\",\n\t\"gender\": \"Female\",\n\t\"birthdate\": \"1999/12/31\"\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/actors",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"actors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Director Get Actors",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains actors array\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.actors).to.be.an('array')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/actors",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"actors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Director Update Actor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Jane Doe\"\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/actors/5",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"actors",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Director Delete Actor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/actors/2",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"actors",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik56VkZORE5EUkRVMVFqaEZOVFE1UkRVd05VSkNNa0UxTTBRelJEazNRVVl3UkRJME1rUXpNdyJ9.eyJpc3MiOiJodHRwczovL2Zpc2hob3VzZS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWViNzQ5MGU1NGIxNGMwYzEyOGFiMGZjIiwiYXVkIjoiY2FzdGluZyIsImlhdCI6MTU4OTI1ODg4NSwiZXhwIjoxNTg5MzQ1Mjg1LCJhenAiOiI2QnlpNTdjWWN6S2xHbnEzYTJadzRsVHlNR05hcmI0ZSIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9yIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvciIsInBhdGNoOm1vdmllIiwicG9zdDphY3RvciJdfQ.2q8jp2TZUUIEd-x07E1FC4GojeGvKwcpAdFB2tReE_g6pxG7HHkw3Au0BfefUEhkUa3Ydg9AvglXuMWul1MeoEIvf1BiXgS3FYdQknlEiaaUatWS-fnz0qI5UpouR2EGUB_3E0xh0a8cAeqCZCAQdq_1KLVrSa4Q2fiy1tDFhpSLnBDdX_1UGdTCssVXFGz-k-hXlU_uFoLiv3jnpzvmt3vc_ZSufOrmKzP6vIlviboIrKwi2FmynuOW8U0VXwjkmq7fwsHIYP5aki5Jf11LWHO8mOH-u15oHcczISj9N6i4wmFDaulu_fv-Z_dL0-HDHbOjsu70_YnX7AOPfpTnLg",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4ccbee46-8642-4d47-9f82-430b153cef58",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a40808de-9d9f-4c94-a20f-912b5138ba65",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Assistant",
+			"item": [
+				{
+					"name": "Movies",
+					"item": [
+						{
+							"name": "Assistant Post Movie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"Return of the Jedi\",\n\t\"genre\": \"Fantasy\",\n\t\"release_date\": \"1983/05/25\"\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/movies",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Assistant Get Movies",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains movies array\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.movies).to.be.an('array')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/movies",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Assistant Update Movie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"Star Wars: Episode VI - Return of the Jedi\",\n\t\"genre\": \"Sci-fi\"\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/movies/6",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"movies",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Assistant Delete Movie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/movies/6",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"movies",
+										"6"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Actors",
+					"item": [
+						{
+							"name": "Assistant Post Movie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Jane Smith\",\n\t\"gender\": \"Female\",\n\t\"birthdate\": \"1999/12/31\"\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/actors",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"actors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Assistant Get Movies",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains actors array\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.actors).to.be.an('array')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/actors",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"actors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Assistant Update Movies",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Janie Jones\"\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/actors/6",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"actors",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Assistant Delete Movies",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732cee31-6d68-48ca-b62b-57bb9f0d6936",
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"Star Wars: The Empire Strikes Back\",\n\t\"genre\": \"Sci-fi\",\n\t\"release_date\": \"1980/06/20\"\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://central-casting.herokuapp.com/actors/3",
+									"protocol": "https",
+									"host": [
+										"central-casting",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"actors",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik56VkZORE5EUkRVMVFqaEZOVFE1UkRVd05VSkNNa0UxTTBRelJEazNRVVl3UkRJME1rUXpNdyJ9.eyJpc3MiOiJodHRwczovL2Zpc2hob3VzZS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWViNzQ4Y2M2YjY5YmMwYzEyMDhkODYwIiwiYXVkIjoiY2FzdGluZyIsImlhdCI6MTU4OTI1ODc3MywiZXhwIjoxNTg5MzQ1MTczLCJhenAiOiI2QnlpNTdjWWN6S2xHbnEzYTJadzRsVHlNR05hcmI0ZSIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiXX0.bHCq6j5mqzIRqiSTGnIxyZmi-MoP-Q1EiksRjWlhcYqZvGWnm9xPj8mUmomh-DeMFvyFCcxUmJsUDY2siqbvjiLQIP1BGDCDHUlQJfPT7B80gjY8YvxPqONPD_Nm7yW5j-EzZLQp58ntd2HI0Z7L5VUsjFFIvjwi9KUlbtnbFwK0bQd2RBdLRInhMrUGAzwYxJtmOFdnVXN2FUdHLJANziYMl4204Idc5SvPhYeYhuIp090jr2sx5UtF_FIu_SvMCnYAYScY_Vr0mtygEwPDklDWrRW9ucD85H8sp1E8I5eWpNAc_nFMD5G2SLVEUe-H3ASVns9l_NyLSzXfg_wEsg",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4ccbee46-8642-4d47-9f82-430b153cef58",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a40808de-9d9f-4c94-a20f-912b5138ba65",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik56VkZORE5EUkRVMVFqaEZOVFE1UkRVd05VSkNNa0UxTTBRelJEazNRVVl3UkRJME1rUXpNdyJ9.eyJpc3MiOiJodHRwczovL2Zpc2hob3VzZS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU4ZGQxNTA4ODVlYzIwY2QxNzYzZGU5IiwiYXVkIjoiY29mZmVlIiwiaWF0IjoxNTg2NDczMDczLCJleHAiOjE1ODY1Mzk3MzksImF6cCI6Ims4OTlXSkg2MXRyU1Y1UXl5ZGJKNGhmUkFzT3ZGcUxWIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6ZHJpbmtzIiwiZ2V0OmRyaW5rcy1kZXRhaWwiLCJwYXRjaDpkcmlua3MiLCJwb3N0OmRyaW5rcyJdfQ.ra7lpqfU721gVcApxHv2OOcZsNKMBRLH4w0yGyQZLzHakUzD8LtGsG6rTp8NdEcNfcYF3Z4hIYxadi6D4V9E14csWAX9b_z-lHFhw4HBEk4kct1-Kz41UdbDBTyq98H_2LC_Fo-MWBKNwD5X0pJLyLICyXT4azX1j2RdKwGRLcde3jGpaJ7AznRHDLbIlyGLg0VjolHHQ-NtFU5oOjr9T8phaAcMQ0AawqwWDdGsN5v0CFi5JRUWOFBZa4112n6_3exAklryhqTTAv7ETa9e84HG_Mc5snpxg9_FTjue0r0OMjTiY-vaiEN3ZVdNJjix7b_r7AQPqgDB3Pr8hPaKYQ",
+				"type": "string"
+			}
+		]
+	},
+	"protocolProfileBehavior": {}
+}
