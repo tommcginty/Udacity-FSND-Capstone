@@ -3,10 +3,8 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from dotenv import load_dotenv
-from models import setup_db, db_drop_and_create_all, calculate_age, current_date, Movie, Actor
+from models import setup_db, db_drop_and_create_all, db_create_records, calculate_age, current_date, Movie, Actor
 from auth.auth import AuthError, requires_auth
-
-
 
 RESULTS_PER_PAGE = 6
 
@@ -27,11 +25,14 @@ def create_app():
   CORS(app)
 
   '''
-  @TODO uncomment the following line to initialize the datbase
+  @TODO uncomment the following 2 lines to initialize the datbase
   !! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
   !! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
 '''
-  #db_drop_and_create_all()
+  db_drop_and_create_all()
+  db_create_records()
+
+  
 
   @app.route('/')
   def welcome():
@@ -115,7 +116,6 @@ def create_app():
   @requires_auth('patch:movie')
   def update_movie(jwt, movie_id):
     movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
-    original_title = movie.title
     if not movie:
       abort(404)
     updated_movie = request.get_json()
@@ -132,12 +132,10 @@ def create_app():
       movie.release_date = release_date
     try:
       movie.update()
-      new_title = movie.title
       return jsonify({
         'success': True,
       }), 200
     except Exception as e:
-      print('My exception occurred, value:', e)
       abort(422)
     
 #  Actors
@@ -195,7 +193,6 @@ def create_app():
     except:
       abort(422)
 
-
   @app.route('/actors', methods=['POST'])
   @requires_auth('post:actor')
   def add_actor(jwt):
@@ -243,7 +240,6 @@ def create_app():
         'birthdate': actor.birthdate
       }), 200
     except Exception as e:
-      print('My exception occurred, value:', e)
       abort(422)
 
 # Error Handlers
@@ -285,5 +281,5 @@ def create_app():
 app = create_app()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run()
     

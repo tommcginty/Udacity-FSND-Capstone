@@ -19,8 +19,8 @@ class CastingTestCase(unittest.TestCase):
 
         # test movie
         self.new_movie = {
-            'title': 'Untitled Funny Movie',
-            'genre': 'Comedy',
+            'title': 'Untitled Action Movie',
+            'genre': 'Action',
             'release_date': '2038/01/19'
         }
 
@@ -34,7 +34,6 @@ class CastingTestCase(unittest.TestCase):
         self.assistant = os.getenv('ASSISTANT')
         self.director = os.getenv('DIRECTOR')
         self.producer = os.getenv('PRODUCER')
-        #self.no_permissions = os.getenv('NO_PERMISSIONS')
 
         # binds the app to the current context
         with self.app.app_context():
@@ -120,7 +119,7 @@ class CastingTestCase(unittest.TestCase):
 
     def test_update_movie(self):
         movie = Movie.query.order_by(Movie.id.desc()).first()
-        updated_movie = {'title': 'Untitled Stupid Movie', 'genre': 'Comedy', 'release_date': '2038/01/01'}
+        updated_movie = {'title': 'Untitled Comedy Movie', 'genre': 'Comedy', 'release_date': '2038/01/01'}
         res = self.client().patch(f'/movies/{movie.id}', json=updated_movie, headers={'Authorization': self.director})
         data = json.loads(res.data)
 
