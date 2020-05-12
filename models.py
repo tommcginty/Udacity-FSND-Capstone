@@ -4,9 +4,9 @@ from sqlalchemy import Column, String, Integer, create_engine
 from flask_sqlalchemy import SQLAlchemy
 from datetime import date, datetime
 
-database_path = os.environ.get('DATABASE_URL')
+#database_path = os.environ.get('DATABASE_URL')
 # To run locally, comment the line above and uncomment the line
-#database_path = "postgres://postgres@localhost:5432/casting"
+database_path = "postgres://postgres@localhost:5432/casting"
 
 current_date = date.today()
 

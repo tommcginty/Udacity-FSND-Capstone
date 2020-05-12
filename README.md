@@ -35,6 +35,53 @@ In order to use the API users need to be authenticated.
 * __Executive Producer:__
     * All permissions a Casting Director has and…
     * Add or delete a movie from the database.
+
+## Setting Up Authorization
+For Authentication, users must sign in with Auth0. To run this application, create an account with Auth0 (https://auth0.com).
+In Auth0, create a new web application. Copy your domain into AUTH0_DOMAIN in config.py.
+Create a new API. Copy the identifier into API_AUDIENCE in config.py.
+Enable RBAC and Add permissions in the access token and save settings.
+Still in API, go to permissions and create these permissions:
+    - `get:actors`
+    - `post:actors`
+    - `patch:actors`
+    - `delete:actors`
+    - `get:movies`
+    - `post:movies`
+    - `patch:movies`
+    - `delete:movies`
+Go to Users and Roles and create roles for Producer, Director and Assistant.
+For each of these roles, add permissions as follows:
+    - Casting Assistant
+        - can   - `get:actors`
+                - `get:movies`
+    - Casting Director
+        - can   - `get:actors`
+                - `post:actors`
+                - `patch:actors`
+                - `delete:actors`
+                - `get:movies`
+                - `patch:movies`
+    - Executive Producer
+        - can   - `get:actors`
+                - `get:movies`
+                - `post:movies`
+                - `delete:movies`
+Register three users and assign them each a role.
+Your users can sign in using a url like this:
+```
+https://{{YOUR_DOMAIN}}/authorize?audience={{API_IDENTIFIER}}&response_type=token&client_id={{YOUR_CLIENT_ID}}&redirect_uri={{YOUR_CALLBACK_URI}}
+```
+After the user is logged in, you can get the acces token from the callback url between '#access_token=' and '&expires_in'
+
+When testing locally, you'll need the set the bearer tokens as environment variables by running:
+```
+export ASSISTANT="Bearer <INSERT_YOUR_TOKEN>"
+export DIRECTOR="Bearer <INSERT_YOUR_TOKEN>"
+export PRODUCER="Bearer <INSERT_YOUR_TOKEN>"
+```
+Alternatively, you can use Postman (https://www.postman.com/).
+
 ### Endpoints
 __Get__`/movies`
 Retreives an array of current movies in the database.
@@ -113,10 +160,4 @@ To run testing locally, first create a test database
 With postgres running, create the database
 ```
 createdb casting_test
-```
-You'll need the set the bearer tokens as environment variables by running:
-```
-export ASSISTANT="Bearer <INSERT_YOUR_TOKEN>"
-export DIRECTOR="Bearer <INSERT_YOUR_TOKEN>"
-export PRODUCER="Bearer <INSERT_YOUR_TOKEN>"
 ```
