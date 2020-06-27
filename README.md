@@ -1,5 +1,5 @@
 # Udacity Full Stack Developer Capstone
-This is my capstone project for Udacity's Full Stack Nanodegree Program. This project creates the backbone for a casting agency's application. In it, employees - depending on their role - can view, add, update or delete and actor from the database.
+This is my capstone project for Udacity's Full Stack Nanodegree Program. This project creates the backbone for a casting agency's application. In it, employees - depending on their role - can view, add, update or delete an actor from the database.
 https://central-casting.herokuapp.com
 
 ## Tech Stack
